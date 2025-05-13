@@ -6,8 +6,19 @@ A custom reinforcement learning environment built with Gymnasium, simulating a M
 2. Grid-Based Gameplay: A configurable grid (default 10x10) with tiles having hidden types (Safe, Low-Risk, Danger).
 3. Spatially Varying Risk: The grid is divided into quadrants, each assigned a distinct risk profile (probability distribution of tile types). These profiles can remap periodically across episodes.
 4. Action Space: Agents can choose any tile and perform one of two actions:
-    Click (Reveal): Uncovers the tile, yielding rewards or penalties based on its type.
-    Flag: Marks a tile as potentially dangerous, yielding rewards or penalties based on whether it was correctly identified as Danger.Reward System: Defined rewards and penalties encourage learning to identify and manage risks (e.g., positive for safe clicks and correct flags, negative for revealing danger or incorrect flags).Configurable: Game parameters like grid size, risk profiles, max steps, and remapping intervals are controlled via an external env_config.py.Text Rendering: Includes a basic text-based render() method for visualization (using termcolor).Potential for Graphical UI: Designed to be compatible with a separate graphical interface layer (e.g., built with Pygame) for human play.MotivationThis environment was developed to:Provide a novel benchmark for training RL agents on tasks requiring nuanced risk assessment and strategic decision-making in a spatial context.Serve as a flexible platform for cognitive scientists to study human learning and decision-making under spatially contingent risk, potentially offering insights similar to or distinct from tasks like the Iowa Gambling Test.InstallationClone this repository:git clone https://github.com/sundarielango95/Minesweeper_DQN.git
+    a. Click (Reveal): Uncovers the tile, yielding rewards or penalties based on its type.
+    b. Flag: Marks a tile as potentially dangerous, yielding rewards or penalties based on whether it was correctly identified as Danger.
+5. Reward System: Defined rewards and penalties encourage learning to identify and manage risks (e.g., positive for safe clicks and correct flags, negative for revealing danger or incorrect flags).
+6. Configurable: Game parameters like grid size, risk profiles, max steps, and remapping intervals are controlled via an external env_config.py.
+7. Text Rendering: Includes a basic text-based render() method for visualization (using termcolor).Potential for Graphical UI: Designed to be compatible with a separate graphical interface layer (e.g., built with Pygame) for human play.
+
+# Motivation
+
+This environment was developed to:
+1. Provide a novel benchmark for training RL agents on tasks requiring nuanced risk assessment and strategic decision-making in a spatial context.
+2. Serve as a flexible platform for cognitive scientists to study human learning and decision-making under spatially contingent risk, potentially offering insights similar to or distinct from tasks like the Iowa Gambling Test.
+# Installation
+Clone this repository:git clone https://github.com/sundarielango95/Minesweeper_DQN.git
 cd Minesweeper_DQN
 Create an env_config.py file in the root directory of the project. This file should define the ENV_CONFIG and RISK_PROFILES dictionaries. See the example structure below.env_config.py Example# env_config.py
 ENV_CONFIG = {
