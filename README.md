@@ -87,4 +87,7 @@ A separate script (play_minesweeper.py in this repo) demonstrates how to wrap th
 
 # Potential Future Work
 
-Refine reward function and tile probabilities based on empirical testing.Implement different information conditions (e.g., classic Minesweeper neighbor counts).Develop more sophisticated graphical UI features (images, animations).Integrate logging for cognitive experiments (response times, click sequences).Benchmark various RL algorithms on the environment.Conduct studies to validate the environment as a cognitive assessment tool.
+1. Refine reward function and tile probabilities based on empirical testing.
+2. Implement different information conditions (e.g., classic Minesweeper neighbor counts).Develop more sophisticated graphical UI features (images, animations).
+3. Integrate logging for cognitive experiments (response times, click sequences).
+4. Benchmark various RL algorithms on the environment.Conduct studies to validate the environment as a cognitive assessment tool.
