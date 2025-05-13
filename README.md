@@ -49,8 +49,11 @@ env = CognitiveMinesweeperEnv() # Or register with gym.make if preferred
 
 # Start an episode
 observation = env.reset()
+
 total_reward = 0
+
 done = False
+
 info = {} # Gymnasium reset might return info
 
 # Run an episode
