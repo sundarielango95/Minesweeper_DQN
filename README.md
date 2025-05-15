@@ -19,11 +19,11 @@ This environment was developed to:Provide a novel benchmark for training RL agen
 
 # Installation
 Clone this repository:
-'''
+```
 git clone https://github.com/sundarielango95/Minesweeper_DQN.git
 
 cd Minesweeper_DQN
-'''
+```
 Install the required libraries:
 pip install gymnasium numpy termcolor pygame # pygame is needed if you use the included UI script
 
