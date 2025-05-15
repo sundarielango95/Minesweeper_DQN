@@ -18,10 +18,18 @@ A custom reinforcement learning environment built with Gymnasium, simulating a M
 This environment was developed to:Provide a novel benchmark for training RL agents on tasks requiring nuanced risk assessment and strategic decision-making in a spatial context.Serve as a flexible platform for cognitive scientists to study human learning and decision-making under spatially contingent risk, potentially offering insights similar to or distinct from tasks like the Iowa Gambling Test.
 
 # Installation
-Clone this repository:git clone https://github.com/sundarielango95/Minesweeper_DQN.git
+Clone this repository:
+
+git clone https://github.com/sundarielango95/Minesweeper_DQN.git
+
 cd Minesweeper_DQN
-Install the required libraries:pip install gymnasium numpy termcolor pygame # pygame is needed if you use the included UI script
-Create an env_config.py file in the root directory of the project. This file should define the ENV_CONFIG and RISK_PROFILES dictionaries. See the example structure below.env_config.py Example# env_config.py
+
+Install the required libraries:
+pip install gymnasium numpy termcolor pygame # pygame is needed if you use the included UI script
+
+Create an env_config.py file in the root directory of the project. This file should define the ENV_CONFIG and RISK_PROFILES dictionaries. See the example structure below.env_config.py 
+
+Example# env_config.py
 
 ENV_CONFIG = {
     'grid_size': 10,
