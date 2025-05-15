@@ -50,20 +50,20 @@ RISK_PROFILES = {
     # Add more profiles as needed
 }
 ```
-# Basic Usage (for RL Agent)
-
+## Basic Usage (for RL Agent)
+```
 import gymnasium as gym
 
 from cognitive_minesweeper_env import CognitiveMinesweeperEnv
 
 from env_config import ENV_CONFIG # Make sure this file exists
-
-# Instantiate the environment
-
+```
+## Instantiate the environment
+```
 env = CognitiveMinesweeperEnv() # Or register with gym.make if preferred
-
-# Start an episode
-
+```
+## Start an episode
+```
 observation = env.reset()
 
 total_reward = 0
@@ -71,8 +71,9 @@ total_reward = 0
 done = False
 
 info = {} # Gymnasium reset might return info
-
-# Run an episode
+```
+## Run an episode
+```
 while not done:
     # Example: Choose a random action (replace with your agent's logic)
     action = env.action_space.sample()
@@ -86,11 +87,12 @@ while not done:
     # print(f"Step: {env.current_step}, Action: {action}, Reward: {reward}, Done: {done}, Total Reward: {total_reward}")
 
 print(f"\nEpisode finished with total reward: {total_reward}")
-
-# Close the environment (important for resources if using rendering, etc.)
+```
+## Close the environment (important for resources if using rendering, etc.)
+```
 env.close()
-
-# Human Playable Game (Pygame UI)
+```
+## Human Playable Game (Pygame UI)
 
 A separate script (play_minesweeper.py in this repo) demonstrates how to wrap this environment in a graphical Pygame UI, allowing human users to play the game. Refer to that script for details on running the human-playable version.
 
