@@ -17,7 +17,9 @@ A custom reinforcement learning environment built with Gymnasium, simulating a M
 
 # Motivation
 
-This environment was developed to:Provide a novel benchmark for training RL agents on tasks requiring nuanced risk assessment and strategic decision-making in a spatial context.Serve as a flexible platform for cognitive scientists to study human learning and decision-making under spatially contingent risk, potentially offering insights similar to or distinct from tasks like the Iowa Gambling Test.
+This environment was developed to:
+   Provide a novel benchmark for training RL agents on tasks requiring nuanced risk assessment and strategic decision-making in a spatial context.
+   Serve as a flexible platform for cognitive scientists to study human learning and decision-making under spatially contingent risk, potentially offering insights similar to or distinct from tasks like the Iowa Gambling Test.
 
 # Installation
 Clone this repository:
