@@ -7,11 +7,13 @@ A custom reinforcement learning environment built with Gymnasium, simulating a M
 1. Gymnasium Interface: Implements the standard gymnasium.Env API, making it compatible with popular reinforcement learning libraries.
 2. Grid-Based Gameplay: A configurable grid (default 10x10) with tiles having hidden types (Safe, Low-Risk, Danger).
 3. Spatially Varying Risk: The grid is divided into quadrants, each assigned a distinct risk profile (probability distribution of tile types). These profiles can remap periodically across episodes.
-4. Action Space: Agents can choose any tile and perform one of two actions:Click (Reveal): Uncovers the tile, yielding rewards or penalties based on its type.Flag: Marks a tile as potentially dangerous, yielding rewards or penalties based on whether it was correctly identified as Danger.
-5. Reward System: Defined rewards and penalties encourage learning to identify and manage risks (e.g., positive for safe clicks and correct flags, negative for revealing danger or incorrect flags).
-6. Configurable: Game parameters like grid size, risk profiles, max steps, and remapping intervals are controlled via an external env_config.py.
-7. Text Rendering: Includes a basic text-based render() method for visualization (using termcolor).
-8. Potential for Graphical UI: Designed to be compatible with a separate graphical interface layer (e.g., built with Pygame) for human play.
+4. Action Space: Agents can choose any tile and perform one of two actions:
+   - Click (Reveal): Uncovers the tile, yielding rewards or penalties based on its type.
+   - Flag: Marks a tile as potentially dangerous, yielding rewards or penalties based on whether it was correctly identified as Danger.
+6. Reward System: Defined rewards and penalties encourage learning to identify and manage risks (e.g., positive for safe clicks and correct flags, negative for revealing danger or incorrect flags).
+7. Configurable: Game parameters like grid size, risk profiles, max steps, and remapping intervals are controlled via an external env_config.py.
+8. Text Rendering: Includes a basic text-based render() method for visualization (using termcolor).
+9. Potential for Graphical UI: Designed to be compatible with a separate graphical interface layer (e.g., built with Pygame) for human play.
 
 # Motivation
 
