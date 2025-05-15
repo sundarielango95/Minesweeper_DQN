@@ -46,16 +46,21 @@ RISK_PROFILES = {
     'random': (0.25, 0.25, 0.50)
     # Add more profiles as needed
 }
-Basic Usage (for RL Agent)
+
+# Basic Usage (for RL Agent)
 
 import gymnasium as gym
+
 from cognitive_minesweeper_env import CognitiveMinesweeperEnv
+
 from env_config import ENV_CONFIG # Make sure this file exists
 
 # Instantiate the environment
+
 env = CognitiveMinesweeperEnv() # Or register with gym.make if preferred
 
 # Start an episode
+
 observation = env.reset()
 
 total_reward = 0
