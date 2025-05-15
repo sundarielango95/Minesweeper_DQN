@@ -25,12 +25,15 @@ git clone https://github.com/sundarielango95/Minesweeper_DQN.git
 cd Minesweeper_DQN
 ```
 Install the required libraries:
+```
 pip install gymnasium numpy termcolor pygame # pygame is needed if you use the included UI script
+```
+Create an env_config.py file in the root directory of the project. This file should define the ENV_CONFIG and RISK_PROFILES dictionaries. See the example structure below.
 
-Create an env_config.py file in the root directory of the project. This file should define the ENV_CONFIG and RISK_PROFILES dictionaries. See the example structure below.env_config.py 
+## env_config.py 
 
-Example# env_config.py
-
+Example - # env_config.py
+```
 ENV_CONFIG = {
     'grid_size': 10,
     'quadrant_size': 5, # Assuming a grid_size of 10 is divided into 2x2 quadrants of 5x5 tiles
@@ -46,7 +49,7 @@ RISK_PROFILES = {
     'random': (0.25, 0.25, 0.50)
     # Add more profiles as needed
 }
-
+```
 # Basic Usage (for RL Agent)
 
 import gymnasium as gym
