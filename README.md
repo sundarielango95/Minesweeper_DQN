@@ -101,15 +101,34 @@ env.close()
 A separate script (play_minesweeper.py in this repo) demonstrates how to wrap this environment in a graphical Pygame UI, allowing human users to play the game. Refer to that script for details on running the human-playable version.
 
 # Environment Details
-1. Observation Space: A Box(low=0, high=4, shape=(grid_size * grid_size,)) numpy array representing the state of each tile from the player's perspective:0: Unrevealed1: Safe (Revealed)2: Low-Risk (Revealed)3: Danger (Revealed)4: Flagged
-2. Action Space: A MultiDiscrete([grid_size * grid_size, 2]) representing [tile_index, action_type].tile_index: The flat index of the chosen tile (0 to total_tiles - 1).action_type: 0 for Click, 1 for Flag.
-3. Reward Function:Clicking Safe (1): Positive reward (e.g., +10)Clicking Low-Risk (2): Negative penalty (e.g., -10)Clicking Danger (3): Large negative penalty (e.g., -50) - typically ends the game or episodeFlagging Danger (3): Small positive reward (e.g., +5)Flagging Safe or Low-Risk (1 or 2): Negative penalty (e.g., -5)
-4. Attempting action on an already revealed/flagged tile: Small penalty (e.g., -1) - does not consume a step or change tile state.
-5. Episode Termination: An episode ends when:A Danger tile is clicked.The maximum number of steps is reached.(Optional future) All non-Danger tiles are successfully revealed.
+1. Observation Space:
+   - A Box(low=0, high=4, shape=(grid_size * grid_size,)) numpy array representing the state of each tile from the player's perspective:
+        - 0: Unrevealed
+        - 1: Safe (Revealed)
+        - 2: Low-Risk (Revealed)
+        - 3: Danger (Revealed)
+        - 4: Flagged
+3. Action Space:
+   - A MultiDiscrete([grid_size * grid_size, 2]) representing [tile_index, action_type].
+        - tile_index: The flat index of the chosen tile (0 to total_tiles - 1).
+        - action_type: 0 for Click, 1 for Flag.
+5. Reward Function:
+   - Clicking Safe (1): Positive reward (e.g., +10)
+   - Clicking Low-Risk (2): Negative penalty (e.g., -10)
+   - Clicking Danger (3): Large negative penalty (e.g., -50) - typically ends the game or episode
+   - Flagging Danger (3): Small positive reward (e.g., +5)
+   - Flagging Safe or Low-Risk (1 or 2): Negative penalty (e.g., -5)
+7. Attempting action on an already revealed/flagged tile: Small penalty (e.g., -1) - does not consume a step or change tile state.
+8. Episode Termination: An episode ends when:
+   - A Danger tile is clicked.
+   - The maximum number of steps is reached.
+   - (Optional future) All non-Danger tiles are successfully revealed.
 
 # Potential Future Work
 
 1. Refine reward function and tile probabilities based on empirical testing.
-2. Implement different information conditions (e.g., classic Minesweeper neighbor counts).Develop more sophisticated graphical UI features (images, animations).
-3. Integrate logging for cognitive experiments (response times, click sequences).
-4. Benchmark various RL algorithms on the environment.Conduct studies to validate the environment as a cognitive assessment tool.
+2. Implement different information conditions (e.g., classic Minesweeper neighbor counts).
+3. Develop more sophisticated graphical UI features (images, animations).
+4. Integrate logging for cognitive experiments (response times, click sequences).
+5. Benchmark various RL algorithms on the environment.
+6. Conduct studies to validate the environment as a cognitive assessment tool.
