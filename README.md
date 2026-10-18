@@ -1,134 +1,106 @@
-# Cognitive Minesweeper Gymnasium Environment
+# Cognitive Minesweeper
 
-A custom reinforcement learning environment built with Gymnasium, simulating a Minesweeper-like game designed to explore decision-making under spatially varying risk and uncertainty.Project DescriptionThe Cognitive Minesweeper environment (CognitiveMinesweeperEnv) provides a grid-based task where an agent (or a human player) must make sequential decisions (clicking or flagging tiles) to maximize cumulative reward. Unlike traditional Minesweeper where risk is derived solely from adjacent mines, this environment introduces varying risk profiles across different spatial quadrants of the grid.The environment is designed to be challenging for RL agents learning risk-averse or risk-seeking behaviors based on spatially defined probabilities. It is also being explored as a potential behavioral task for cognitive science research, offering a structured alternative or complement to tasks like the Iowa Gambling Test for studying decision-making under uncertainty in different populations (e.g., neurological conditions like Parkinson's disease).
+A Gymnasium environment for studying decisions under spatially varying risk, with a deep Q-network (DQN) agent and a playable version for humans.
 
-# Key Features
+![A random agent playing Cognitive Minesweeper](cognitive_minesweeper.gif)
 
-1. Gymnasium Interface: Implements the standard gymnasium.Env API, making it compatible with popular reinforcement learning libraries.
-2. Grid-Based Gameplay: A configurable grid (default 10x10) with tiles having hidden types (Safe, Low-Risk, Danger).
-3. Spatially Varying Risk: The grid is divided into quadrants, each assigned a distinct risk profile (probability distribution of tile types). These profiles can remap periodically across episodes.
-4. Action Space: Agents can choose any tile and perform one of two actions:
-   - Click (Reveal): Uncovers the tile, yielding rewards or penalties based on its type.
-   - Flag: Marks a tile as potentially dangerous, yielding rewards or penalties based on whether it was correctly identified as Danger.
-6. Reward System: Defined rewards and penalties encourage learning to identify and manage risks (e.g., positive for safe clicks and correct flags, negative for revealing danger or incorrect flags).
-7. Configurable: Game parameters like grid size, risk profiles, max steps, and remapping intervals are controlled via an external env_config.py.
-8. Text Rendering: Includes a basic text-based render() method for visualization (using termcolor).
-9. Potential for Graphical UI: Designed to be compatible with a separate graphical interface layer (e.g., built with Pygame) for human play.
+In classic Minesweeper, risk comes only from neighbouring mines. Here the 10 × 10 grid is split into four quadrants, and each quadrant draws its tiles from its own risk profile, so some regions are much more dangerous than others. The quadrant-to-profile assignment is reshuffled every few episodes, so a player has to keep relearning where the danger is.
 
-# Motivation
+The environment is built for two uses:
 
-This environment was developed to:
-   - Provide a novel benchmark for training RL agents on tasks requiring nuanced risk assessment and strategic decision-making in a spatial context.
-   - Serve as a flexible platform for cognitive scientists to study human learning and decision-making under spatially contingent risk, potentially offering insights similar to or distinct from tasks like the Iowa Gambling Test.
+- **Reinforcement learning:** a benchmark for agents that must learn risk-averse or risk-seeking behaviour from spatially structured probabilities.
+- **Cognitive science:** a behavioural task for studying learning and decision-making under uncertainty, as a structured alternative or complement to tasks like the Iowa Gambling Task. One target is decision-making in neurological conditions such as Parkinson's disease.
 
-# Installation
-Clone this repository:
-```
+The environment passes Gymnasium's `check_env`.
+
+## What's here
+
+| File | Contents |
+|---|---|
+| `cognitive_minesweeper_env.py` | The environment, `CognitiveMinesweeperEnv` |
+| `env_config.py` | Grid size, step limit, remap interval and risk profiles |
+| `DQN.ipynb` | A random-agent baseline, then a PyTorch DQN with a replay buffer, a target network and masking of invalid actions |
+| `play_minesweeper.py` | A Pygame version for human players |
+
+## Install
+
+```bash
 git clone https://github.com/sundarielango95/Minesweeper_DQN.git
-
 cd Minesweeper_DQN
+pip install -r requirements.txt
 ```
-Install the required libraries:
-```
-pip install gymnasium numpy termcolor pygame # pygame is needed if you use the included UI script
-```
-Create an env_config.py file in the root directory of the project. This file should define the ENV_CONFIG and RISK_PROFILES dictionaries. See the example structure below.
 
-## env_config.py 
+## Use it
 
-Example - # env_config.py
-```
-ENV_CONFIG = {
-    'grid_size': 10,
-    'quadrant_size': 5, # Assuming a grid_size of 10 is divided into 2x2 quadrants of 5x5 tiles
-    'max_steps': 100,   # Maximum number of actions per episode
-    'remap_interval': 5, # Remap quadrant profiles every X episodes
-    'quadrant_profiles': ['standard', 'cautious', 'aggressive', 'random'] # List of profile names to use
-}
-
-RISK_PROFILES = {
-    'standard': (0.20, 0.30, 0.50), # (Danger %, Low-Risk %, Safe %)
-    'cautious': (0.10, 0.20, 0.70),
-    'aggressive': (0.40, 0.30, 0.30),
-    'random': (0.25, 0.25, 0.50)
-    # Add more profiles as needed
-}
-```
-## Basic Usage (for RL Agent)
-```
-import gymnasium as gym
-
+```python
 from cognitive_minesweeper_env import CognitiveMinesweeperEnv
 
-from env_config import ENV_CONFIG # Make sure this file exists
-```
-## Instantiate the environment
-```
-env = CognitiveMinesweeperEnv() # Or register with gym.make if preferred
-```
-## Start an episode
-```
-observation = env.reset()
+env = CognitiveMinesweeperEnv()
+observation, info = env.reset(seed=0)
+total_reward = 0.0
 
-total_reward = 0
-
-done = False
-
-info = {} # Gymnasium reset might return info
-```
-## Run an episode
-```
-while not done:
-    # Example: Choose a random action (replace with your agent's logic)
-    action = env.action_space.sample()
-
-    # Step the environment
-    observation, reward, done, info = env.step(action)
+while True:
+    action = env.action_space.sample()          # replace with your agent
+    observation, reward, terminated, truncated, info = env.step(action)
     total_reward += reward
+    if terminated or truncated:
+        break
 
-    # Optional: Render the environment (text-based)
-    # env.render()
-    # print(f"Step: {env.current_step}, Action: {action}, Reward: {reward}, Done: {done}, Total Reward: {total_reward}")
-
-print(f"\nEpisode finished with total reward: {total_reward}")
-```
-## Close the environment (important for resources if using rendering, etc.)
-```
+print(f"Episode return: {total_reward}")
 env.close()
 ```
-## Human Playable Game (Pygame UI)
 
-A separate script (play_minesweeper.py in this repo) demonstrates how to wrap this environment in a graphical Pygame UI, allowing human users to play the game. Refer to that script for details on running the human-playable version.
+To train the DQN agent, open `DQN.ipynb` and run the cells in order.
 
-# Environment Details
-1. Observation Space:
-   - A Box(low=0, high=4, shape=(grid_size * grid_size,)) numpy array representing the state of each tile from the player's perspective:
-        - 0: Unrevealed
-        - 1: Safe (Revealed)
-        - 2: Low-Risk (Revealed)
-        - 3: Danger (Revealed)
-        - 4: Flagged
-3. Action Space:
-   - A MultiDiscrete([grid_size * grid_size, 2]) representing [tile_index, action_type].
-        - tile_index: The flat index of the chosen tile (0 to total_tiles - 1).
-        - action_type: 0 for Click, 1 for Flag.
-5. Reward Function:
-   - Clicking Safe (1): Positive reward (e.g., +10)
-   - Clicking Low-Risk (2): Negative penalty (e.g., -10)
-   - Clicking Danger (3): Large negative penalty (e.g., -50) - typically ends the game or episode
-   - Flagging Danger (3): Small positive reward (e.g., +5)
-   - Flagging Safe or Low-Risk (1 or 2): Negative penalty (e.g., -5)
-7. Attempting action on an already revealed/flagged tile: Small penalty (e.g., -1) - does not consume a step or change tile state.
-8. Episode Termination: An episode ends when:
-   - A Danger tile is clicked.
-   - The maximum number of steps is reached.
-   - (Optional future) All non-Danger tiles are successfully revealed.
+To play it yourself, run `python play_minesweeper.py`. Left-click reveals a tile, right-click flags it, and **R** restarts when a game ends.
 
-# Potential Future Work
+## Configuration
 
-1. Refine reward function and tile probabilities based on empirical testing.
-2. Implement different information conditions (e.g., classic Minesweeper neighbor counts).
-3. Develop more sophisticated graphical UI features (images, animations).
-4. Integrate logging for cognitive experiments (response times, click sequences).
-5. Benchmark various RL algorithms on the environment.
-6. Conduct studies to validate the environment as a cognitive assessment tool.
+`env_config.py` sets the game. The defaults:
+
+```python
+ENV_CONFIG = {
+    'grid_size': 10,
+    'quadrant_size': 5,
+    'max_steps': 200,          # actions per episode
+    'remap_interval': 100,     # reshuffle quadrant profiles every N episodes
+    'quadrant_profiles': ['low', 'low', 'low', 'high']
+}
+
+RISK_PROFILES = {              # (danger, low-risk, safe) proportions
+    'high': (0.25, 0.25, 0.5),
+    'low':  (0.05, 0.10, 0.85)
+}
+```
+
+## Environment details
+
+**Observation:** `Box(0, 4, shape=(100,))`, one value per tile: 0 unrevealed, 1 safe, 2 low-risk, 3 danger, 4 flagged.
+
+**Action:** `MultiDiscrete([100, 2])`, meaning a tile index plus an action type (0 click, 1 flag).
+
+**Rewards:**
+
+| Action | Reward |
+|---|---|
+| Click a safe tile | +10 |
+| Click a low-risk tile | −10 |
+| Click a danger tile | −50 |
+| Flag a danger tile | +5 |
+| Flag a safe or low-risk tile | −5 |
+| Act on a tile already revealed or flagged | −1, and the step does not count |
+
+**Episode end:** the episode terminates when every tile has been revealed or flagged, and is truncated after `max_steps` actions. Clicking a danger tile costs −50 but does not end the episode.
+
+## Future work
+
+1. Tune the rewards and tile probabilities from empirical testing.
+2. Add other information conditions, such as classic Minesweeper neighbour counts.
+3. Improve the graphical interface.
+4. Log response times and click sequences for cognitive experiments.
+5. Benchmark more RL algorithms on the environment.
+6. Validate the task as a cognitive assessment.
+
+## Contact
+
+Sundari Elango, sundarielango95@gmail.com

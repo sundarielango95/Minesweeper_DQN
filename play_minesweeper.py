@@ -39,7 +39,7 @@ font = pygame.font.Font(None, 36) # Default font, size 36
 
 # --- Game Variables ---
 env = CognitiveMinesweeperEnv()
-observation = env.reset()
+observation, info = env.reset()
 done = False
 total_reward = 0
 
@@ -151,12 +151,13 @@ while running:
                             action_type = 1 # 1 for flag
 
                         # Take the step in the environment
-                        observation, reward, done, info = env.step([clicked_index, action_type])
+                        observation, reward, terminated, truncated, info = env.step([clicked_index, action_type])
+                        done = terminated or truncated
                         total_reward += reward # Accumulate reward
 
         if event.type == pygame.KEYDOWN:
             if done and event.key == pygame.K_r: # Press R to restart when game is done
-                observation = env.reset()
+                observation, info = env.reset()
                 done = False
                 total_reward = 0
                 print("Game Restarted!") # Optional: Print to console

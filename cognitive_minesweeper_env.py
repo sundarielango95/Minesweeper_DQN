@@ -1,6 +1,6 @@
 import gymnasium as gym
 import numpy as np
-from gym import spaces
+from gymnasium import spaces
 import random
 from env_config import ENV_CONFIG, RISK_PROFILES
 from termcolor import colored
@@ -59,7 +59,10 @@ class CognitiveMinesweeperEnv(Env):
         cols = (0, 5) if quadrant_id in [0, 2] else (5, 10)
         return [r * self.grid_size + c for r in range(*rows) for c in range(*cols)]
 
-    def reset(self):
+    def reset(self, seed=None, options=None):
+        super().reset(seed=seed)
+        if seed is not None:
+            random.seed(seed)
         if self.episode_counter % self.remap_interval == 0:
             self._remap_quadrants()
         self._assign_tile_types()
@@ -67,15 +70,14 @@ class CognitiveMinesweeperEnv(Env):
         self.current_step = 0
         self.episode_counter += 1
         self.moves_log = []
-        return self.state.copy()
+        return self.state.copy(), {}
 
     def step(self, action):
         index, act_type = action
         reward = 0
-        done = False
 
         if self.state[index] != 0:
-            return self.state.copy(), -1, False, {}
+            return self.state.copy(), -1.0, False, False, {}
 
         if act_type == 0:  # Click
             tile_value = self.tile_types[index]
@@ -98,9 +100,10 @@ class CognitiveMinesweeperEnv(Env):
         self.moves_log.append((self.current_step, index, act_type, reward))
 
         self.current_step += 1
-        done = np.all(self.state != 0) or self.current_step >= self.max_steps
+        terminated = bool(np.all(self.state != 0))
+        truncated = self.current_step >= self.max_steps
 
-        return self.state.copy(), reward, done, {}
+        return self.state.copy(), float(reward), terminated, truncated, {}
 
     def render(self, mode='human'):
         grid = self.state.reshape((self.grid_size, self.grid_size))
