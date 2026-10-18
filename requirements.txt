@@ -1,0 +1,6 @@
+gymnasium
+numpy
+termcolor
+pygame        # only for play_minesweeper.py
+torch         # only for DQN.ipynb
+matplotlib    # only for DQN.ipynb
